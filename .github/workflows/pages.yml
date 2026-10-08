@@ -1,0 +1,139 @@
+name: Deploy QuickOrbit Website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+      - name: Organize the initial web upload
+        run: |
+          set -e
+          move_file() {
+            if [ -f "$1" ]; then
+              mkdir -p "$(dirname "$2")"
+              git mv "$1" "$2"
+            fi
+          }
+          move_file App.jsx src/App.jsx
+          move_file InstallHelp.jsx src/InstallHelp.jsx
+          move_file main.jsx src/main.jsx
+          move_file styles.css src/styles.css
+          move_file prepare-github-pages.mjs scripts/prepare-github-pages.mjs
+          git rm --ignore-unmatch pages.yml
+          move_file design-reference.jpg public/assets/design-reference.jpg
+          move_file 01-move-once.jpeg public/assets/features/01-move-once.jpeg
+          move_file 02-orbit-rules.png public/assets/features/02-orbit-rules.png
+          move_file 03-app-profile.png public/assets/features/03-app-profile.png
+          move_file macos-open-anyway.png public/assets/help/macos-open-anyway.png
+          move_file quickorbit-install.jpg public/assets/help/quickorbit-install.jpg
+          move_file calendar.png public/assets/icons/calendar.png
+          move_file discord.png public/assets/icons/discord.png
+          move_file mail.png public/assets/icons/mail.png
+          move_file messages.png public/assets/icons/messages.png
+          move_file music.png public/assets/icons/music.png
+          move_file notes.png public/assets/icons/notes.png
+          move_file photos.png public/assets/icons/photos.png
+          move_file quickorbit.png public/assets/icons/quickorbit.png
+          move_file 01.jpeg public/assets/motion-preview/01.jpeg
+          move_file 02.jpeg public/assets/motion-preview/02.jpeg
+          move_file 03.jpeg public/assets/motion-preview/03.jpeg
+          move_file 04.jpeg public/assets/motion-preview/04.jpeg
+          move_file 05.jpeg public/assets/motion-preview/05.jpeg
+          move_file menu-bar-actions.png public/assets/screenshots/menu-bar-actions.png
+          move_file orbit-settings.png public/assets/screenshots/orbit-settings.png
+          move_file profile-switcher.png public/assets/screenshots/profile-switcher.png
+          move_file 01-app-grid.jpeg public/assets/showcase/01-app-grid.jpeg
+          move_file 02-mac-actions.jpeg public/assets/showcase/02-mac-actions.jpeg
+          move_file 03-web-shortcuts.jpeg public/assets/showcase/03-web-shortcuts.jpeg
+          move_file 04-compact-fan.jpeg public/assets/showcase/04-compact-fan.jpeg
+          move_file 05-circle-layout.jpeg public/assets/showcase/05-circle-layout.jpeg
+          move_file actions.jpeg public/assets/showcase/actions.jpeg
+          move_file app-grid.jpeg public/assets/showcase/app-grid.jpeg
+          move_file circle-layout.jpeg public/assets/showcase/circle-layout.jpeg
+          move_file dashboard.png public/assets/showcase/dashboard.png
+          move_file editor.png public/assets/showcase/editor.png
+          move_file fan-layout.jpeg public/assets/showcase/fan-layout.jpeg
+          move_file menu-bar.jpeg public/assets/showcase/menu-bar.jpeg
+          move_file wallpaper.jpeg public/assets/showcase/wallpaper.jpeg
+          move_file web-actions.jpeg public/assets/showcase/web-actions.jpeg
+          move_file 01-app-grid.png public/assets/sketches/01-app-grid.png
+          move_file 02-first-orbit.png public/assets/sketches/02-first-orbit.png
+          move_file 03-segmented-orbit.png public/assets/sketches/03-segmented-orbit.png
+          move_file 04-glass-orbit.png public/assets/sketches/04-glass-orbit.png
+          move_file 05-action-strip.png public/assets/sketches/05-action-strip.png
+          move_file 06-four-dot-mark.png public/assets/sketches/06-four-dot-mark.png
+          move_file 07-eight-petal-mark.png public/assets/sketches/07-eight-petal-mark.png
+          move_file 08-node-mark.png public/assets/sketches/08-node-mark.png
+          move_file 09-ten-petal-mark.png public/assets/sketches/09-ten-petal-mark.png
+          move_file actions.png public/assets/symbols/actions.png
+          move_file animations.png public/assets/symbols/animations.png
+          move_file books.png public/assets/symbols/books.png
+          move_file break.png public/assets/symbols/break.png
+          move_file calculator.png public/assets/symbols/calculator.png
+          move_file clock.png public/assets/symbols/clock.png
+          move_file fields.png public/assets/symbols/fields.png
+          move_file focus.png public/assets/symbols/focus.png
+          move_file folder.png public/assets/symbols/folder.png
+          move_file game.png public/assets/symbols/game.png
+          move_file keyboard.png public/assets/symbols/keyboard.png
+          move_file language.png public/assets/symbols/language.png
+          move_file mouse.png public/assets/symbols/mouse.png
+          move_file native.png public/assets/symbols/native.png
+          move_file no-account.png public/assets/symbols/no-account.png
+          move_file payment.png public/assets/symbols/payment.png
+          move_file play.png public/assets/symbols/play.png
+          move_file profiles.png public/assets/symbols/profiles.png
+          move_file quiet.png public/assets/symbols/quiet.png
+          move_file settings.png public/assets/symbols/settings.png
+          move_file switching.png public/assets/symbols/switching.png
+          move_file timer.png public/assets/symbols/timer.png
+          move_file trackpad.png public/assets/symbols/trackpad.png
+          move_file updates.png public/assets/symbols/updates.png
+          move_file quickorbit-product.mp4 public/assets/video/quickorbit-product.mp4
+          git add -A
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Organize website source and assets"
+            git push origin HEAD:main
+          fi
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build website
+        run: npm run build:pages
+        env:
+          GITHUB_PAGES: "true"
+          GITHUB_PAGES_BASE: /QuickOrbit-Website/
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/client
+
+  deploy:
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
