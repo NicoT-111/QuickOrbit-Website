@@ -396,7 +396,7 @@ function PricingPage({ notify, navigate }) {
 function FaqPage() {
   const items = [
     ["Is QuickOrbit a subscription?", "No. QuickOrbit is free to download and use. No purchase or subscription is required."],
-    ["How do I open QuickOrbit if macOS blocks it?", <InstallHelp />],
+    ["How do I open QuickOrbit if macOS blocks it?", <InstallHelp detailed />],
     ["Do I have to donate?", "No. A donation option may be added later, but supporting QuickOrbit will always be completely voluntary."],
     ["Which languages are available?", "QuickOrbit is available in German and English. More languages are coming soon."],
     ["What can I find on Discord?", "News, community updates, events and support. You can open the server directly from this website."],
