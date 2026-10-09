@@ -18,7 +18,7 @@ export function InstallPreview() {
   </div>;
 }
 
-export function InstallHelp() {
+export function InstallHelp({ detailed = false }) { if (!detailed) return <div className="install-help install-help--compact"><InstallIllustration /><p>Unpack if needed. Drag to Applications. Open.</p></div>;
   return <div className="install-help">
     <h3>Make yourself at home.</h3>
     <p>Open your downloaded file. If it’s a ZIP, double-click it to unpack the app. Drag QuickOrbit into your Applications folder, then open it from there.</p>
@@ -42,7 +42,7 @@ export function DownloadButton({ className }) {
   return <><button className={className} onClick={() => dialog.current.showModal()}>Get QuickOrbit</button>
     <dialog className="install-dialog" aria-labelledby={titleId} ref={dialog} onClick={event => { if (event.target === dialog.current) dialog.current.close(); }}>
       <div className="install-dialog__header"><span className="eyebrow">Your first launch</span><button autoFocus aria-label="Close installation guide" onClick={() => dialog.current.close()}>Close ×</button></div>
-      <h2 id={titleId}>Ready for your Mac.</h2><p>The official download is not available yet. Here’s how to install QuickOrbit once you have downloaded it.</p>
+      <h2 id={titleId}>Your first launch.</h2>
       <InstallHelp />
       <div className="install-download-placeholder">
         <button className="outline-button" disabled>Download · Coming soon</button>
