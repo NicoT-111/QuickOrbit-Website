@@ -27,7 +27,7 @@ export function InstallHelp({ detailed = false }) {
     <InstallIllustration />
     <SecurityIllustration />
     <p>Unpack if needed. Drag to Applications. Open.</p>
-    <a className="text-link" href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/faq`}>Need the full walkthrough? Visit the FAQ ↗</a>
+    <a className="text-link" href="/QuickOrbit-Website/faq">Need the full walkthrough? Visit the FAQ ↗</a>
   </div>;
 
   return <div className="install-help">
@@ -52,15 +52,15 @@ export function DownloadButton({ className }) {
   const dialog = useRef(null);
   const titleId = useId();
   return <div className="download-actions">
-    <a className={className || "outline-button"} href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest" target="_blank" rel="noopener noreferrer">Download QuickOrbit ↗</a>
+    <a className={className || "outline-button"} href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest/download/QuickOrbit.dmg" target="_blank" rel="noopener noreferrer">Download QuickOrbit · v60 DMG ↓</a>
     <button className="text-link download-guide-link" type="button" onClick={() => dialog.current.showModal()}>Installation guide</button>
     <dialog className="install-dialog" aria-labelledby={titleId} ref={dialog} onClick={event => { if (event.target === dialog.current) dialog.current.close(); }}>
       <div className="install-dialog__header"><span className="eyebrow">Your first launch</span><button type="button" autoFocus aria-label="Close installation guide" onClick={() => dialog.current.close()}>Close ×</button></div>
       <h2 id={titleId}>Your first launch.</h2>
       <InstallHelp />
       <div className="install-download-placeholder">
-        <a className="outline-button" href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest" target="_blank" rel="noopener noreferrer">Download latest release ↗</a>
-        <p>Opens the latest QuickOrbit release on GitHub.</p>
+        <a className="outline-button" href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest/download/QuickOrbit.dmg" target="_blank" rel="noopener noreferrer">Download QuickOrbit · v60 DMG ↓</a>
+        <p>Version v60 · macOS disk image</p>
       </div>
       <form method="dialog"><button className="outline-button">Got it</button></form>
     </dialog>
