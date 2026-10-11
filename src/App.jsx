@@ -400,7 +400,7 @@ function FaqPage() {
     ["Do I have to donate?", "No. A donation option may be added later, but supporting QuickOrbit will always be completely voluntary."],
     ["Which languages are available?", "QuickOrbit is available in German and English. More languages are coming soon."],
     ["What can I find on Discord?", "News, community updates, events and support. You can open the server directly from this website."],
-    ["Where can I download the app?", "The official download link will be published on this website. Join Discord for development updates in the meantime."],
+    ["Where can I download the app?", <p>Download the latest version from <a href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest" target="_blank" rel="noopener noreferrer">QuickOrbit Releases ↗</a>.</p>],
     ["Can I copy or publish QuickOrbit?", "The public repository contains this website’s source, not the Mac app source. It is not an open-source license; broader reuse of QuickOrbit branding or product assets is not granted, subject to GitHub’s terms and applicable law."],
     ["Are updates included?", "Updates are included while QuickOrbit is actively developed and offered. There is no yearly update plan or permanent update guarantee."],
     ["Does QuickOrbit collect my data?", "QuickOrbit has no ads, analytics or telemetry. Settings and profiles are stored locally on your Mac."],
