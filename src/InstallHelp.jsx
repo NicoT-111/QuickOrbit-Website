@@ -55,11 +55,11 @@ export function DownloadButton({ className }) {
   return <><button className={className} onClick={() => dialog.current.showModal()}>Get QuickOrbit</button>
     <dialog className="install-dialog" aria-labelledby={titleId} ref={dialog} onClick={event => { if (event.target === dialog.current) dialog.current.close(); }}>
       <div className="install-dialog__header"><span className="eyebrow">Your first launch</span><button autoFocus aria-label="Close installation guide" onClick={() => dialog.current.close()}>Close ×</button></div>
-      <h2 id={titleId}>Ready for your Mac.</h2><p>The official download is not available yet. Here’s how to install QuickOrbit once you have downloaded it.</p>
+      <h2 id={titleId}>Ready for your Mac.</h2><p>Download the latest release, then follow the quick setup below.</p>
       <InstallHelp />
       <div className="install-download-placeholder">
-        <button className="outline-button" disabled>Download · Coming soon</button>
-        <p>The app download will be available here.</p>
+        <a className="outline-button" href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest" target="_blank" rel="noopener noreferrer">Download latest release ↗</a>
+        <p>Always opens the newest version on GitHub.</p>
       </div>
       <form method="dialog"><button className="outline-button">Got it</button></form>
     </dialog></>;
