@@ -546,3 +546,6 @@ footer small { color: #666; }
 .download-actions { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
 .download-actions > .outline-button { width: 100%; min-height: 58px; background: var(--ink); color: white; box-shadow: 0 5px 0 var(--blue); }
 .download-guide-link { align-self: center; margin: 0; padding: 7px 10px; }
+
+.price-card .download-guide-link { min-height: 0; margin: 0; padding: 5px 8px; border: 0; border-radius: 0; background: transparent; color: var(--ink); font-weight: 850; text-decoration: underline; text-decoration-color: var(--blue); text-decoration-thickness: 2px; text-underline-offset: 4px; box-shadow: none; }
+.price-card .download-guide-link:hover { color: var(--blue); transform: none; box-shadow: none; }
