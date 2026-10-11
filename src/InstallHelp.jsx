@@ -14,14 +14,11 @@ function SecurityIllustration() {
   </figure>;
 }
 
-export function InstallPreview() {
-  return <div className="install-preview">
-    <div className="install-video install-video--placeholder" role="img" aria-label="Guided introduction coming soon">
-      <span className="install-video__play" aria-hidden="true">▶</span>
-      <strong>Guided introduction</strong>
-      <small>Coming soon</small>
-    </div>
-    <InstallIllustration />
+function GuidedIntroduction() {
+  return <div className="install-video install-video--placeholder" role="img" aria-label="Guided introduction video placeholder">
+    <span className="install-video__play" aria-hidden="true">▶</span>
+    <strong>Guided introduction</strong>
+    <small>Step-by-step video</small>
   </div>;
 }
 
@@ -30,9 +27,12 @@ export function InstallHelp({ detailed = false }) {
     <InstallIllustration />
     <SecurityIllustration />
     <p>Unpack if needed. Drag to Applications. Open.</p>
+    <a className="text-link" href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/faq`}>Need the full walkthrough? Visit the FAQ ↗</a>
   </div>;
 
   return <div className="install-help">
+    <GuidedIntroduction />
+    <InstallIllustration />
     <h3>Make yourself at home.</h3>
     <p>Open your downloaded file. If it’s a ZIP, double-click it to unpack the app. Drag QuickOrbit into your Applications folder, then open it from there.</p>
     <h3>If macOS asks.</h3>
@@ -42,8 +42,7 @@ export function InstallHelp({ detailed = false }) {
       <li><strong>Choose Privacy &amp; Security.</strong> Scroll to Security and look for the message naming QuickOrbit.</li>
       <li><strong>Choose Open Anyway.</strong> Review the confirmation and authenticate if prompted.</li>
     </ol>
-    <InstallPreview />
-    <figure><img src="/assets/help/macos-open-anyway.png" alt="Example macOS settings with Privacy & Security and Open Anyway highlighted" loading="lazy" /><figcaption>Example showing a different app. On your Mac, check that the message names QuickOrbit. Labels may vary with your macOS language and version.</figcaption></figure>
+    <figure className="install-illustration install-illustration--security"><img src="/assets/help/macos-open-anyway.png" alt="Example macOS settings with Privacy & Security and Open Anyway highlighted" loading="lazy" /><figcaption>Example showing a different app. On your Mac, check that the message names QuickOrbit. Labels may vary with your macOS language and version.</figcaption></figure>
     <p className="install-help__note">If macOS says the app contains malware or will damage your computer, stop and contact support. Keep your Mac’s security protections enabled.</p>
     <a className="text-link" href="https://support.apple.com/102445" target="_blank" rel="noopener noreferrer">Read Apple’s opening guide ↗</a>
   </div>;
@@ -52,15 +51,18 @@ export function InstallHelp({ detailed = false }) {
 export function DownloadButton({ className }) {
   const dialog = useRef(null);
   const titleId = useId();
-  return <><button className={className} onClick={() => dialog.current.showModal()}>Get QuickOrbit</button>
+  return <div className="download-actions">
+    <a className={className || "outline-button"} href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest" target="_blank" rel="noopener noreferrer">Download QuickOrbit ↗</a>
+    <button className="text-link download-guide-link" type="button" onClick={() => dialog.current.showModal()}>Installation guide</button>
     <dialog className="install-dialog" aria-labelledby={titleId} ref={dialog} onClick={event => { if (event.target === dialog.current) dialog.current.close(); }}>
-      <div className="install-dialog__header"><span className="eyebrow">Your first launch</span><button autoFocus aria-label="Close installation guide" onClick={() => dialog.current.close()}>Close ×</button></div>
-      <h2 id={titleId}>Ready for your Mac.</h2><p>Download the latest release, then follow the quick setup below.</p>
+      <div className="install-dialog__header"><span className="eyebrow">Your first launch</span><button type="button" autoFocus aria-label="Close installation guide" onClick={() => dialog.current.close()}>Close ×</button></div>
+      <h2 id={titleId}>Your first launch.</h2>
       <InstallHelp />
       <div className="install-download-placeholder">
         <a className="outline-button" href="https://github.com/NicoT-111/QuickOrbit-App/releases/latest" target="_blank" rel="noopener noreferrer">Download latest release ↗</a>
-        <p>Always opens the newest version on GitHub.</p>
+        <p>Opens the latest QuickOrbit release on GitHub.</p>
       </div>
       <form method="dialog"><button className="outline-button">Got it</button></form>
-    </dialog></>;
+    </dialog>
+  </div>;
 }
